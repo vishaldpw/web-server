@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  S3_BUCKET: vishal-protein-fitness-demo   # <- change to your bucket name
+  S3_BUCKET: vishal-protein-fitness-demo   # <- change to your bucket name (must be globally unique)
 
 jobs:
   deploy:
@@ -23,11 +23,56 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Ensure S3 bucket exists and is configured for static hosting
+        run: |
+          set -e
+          BUCKET="${{ env.S3_BUCKET }}"
+          REGION="${{ env.AWS_REGION }}"
+
+          if aws s3api head-bucket --bucket "$BUCKET" 2>/dev/null; then
+            echo "Bucket $BUCKET already exists, skipping creation."
+          else
+            echo "Creating bucket $BUCKET in $REGION..."
+            if [ "$REGION" = "us-east-1" ]; then
+              aws s3api create-bucket --bucket "$BUCKET" --region "$REGION"
+            else
+              aws s3api create-bucket \
+                --bucket "$BUCKET" \
+                --region "$REGION" \
+                --create-bucket-configuration LocationConstraint="$REGION"
+            fi
+          fi
+
+          echo "Disabling block-public-access..."
+          aws s3api put-public-access-block \
+            --bucket "$BUCKET" \
+            --public-access-block-configuration \
+              "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false"
+
+          echo "Applying public-read bucket policy..."
+          cat > /tmp/bucket-policy.json <<EOF
+          {
+            "Version": "2012-10-17",
+            "Statement": [{
+              "Sid": "PublicReadGetObject",
+              "Effect": "Allow",
+              "Principal": "*",
+              "Action": "s3:GetObject",
+              "Resource": "arn:aws:s3:::${BUCKET}/*"
+            }]
+          }
+          EOF
+          aws s3api put-bucket-policy --bucket "$BUCKET" --policy file:///tmp/bucket-policy.json
+
+          echo "Enabling static website hosting..."
+          aws s3 website "s3://${BUCKET}/" --index-document index.html
+
       - name: Sync site to S3
         run: |
           aws s3 sync . s3://${{ env.S3_BUCKET }} \
             --exclude ".git/*" \
             --exclude ".github/*" \
+            --exclude "*.sh" \
             --exclude "*.py" \
             --exclude "README.md" \
             --delete
