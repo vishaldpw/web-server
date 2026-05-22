@@ -230,6 +230,82 @@
   }
   .card ul li::marker { color: var(--accent-2); }
 
+  /* ---------- Exercise cards ---------- */
+  .workout-group { margin-bottom: 3rem; }
+  .group-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--accent-2);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+  .exercise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .exercise-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: transform 0.4s, box-shadow 0.4s, border-color 0.4s;
+    display: flex; flex-direction: column;
+  }
+  .exercise-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent-2);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+  .exercise-card img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(78, 205, 196, 0.2));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .exercise-card .body {
+    padding: 1.2rem 1.4rem 1.4rem;
+    display: flex; flex-direction: column; flex: 1;
+  }
+  .exercise-card h4 {
+    color: var(--gold);
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+  .exercise-card .reps {
+    color: var(--accent-2);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.6rem;
+  }
+  .exercise-card .desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+  .exercise-card .tutorial {
+    align-self: flex-start;
+    color: var(--text);
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid rgba(255, 107, 107, 0.4);
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .exercise-card .tutorial:hover {
+    background: var(--accent);
+    color: #0f0c29;
+    transform: translateY(-2px);
+  }
+
   /* ---------- Protein calculator ---------- */
   .calc {
     max-width: 700px; margin: 0 auto 3rem;
@@ -561,73 +637,257 @@
 
 <section id="workouts">
   <h2 class="section-title">Workouts by Body Part</h2>
-  <p class="section-sub">A balanced split that hits every major muscle group across the week.</p>
-  <div class="grid">
-    <div class="card">
-      <div class="icon">🏋️</div>
-      <h3>Chest</h3>
-      <p>Push movements that build a strong upper body and improve posture.</p>
-      <ul>
-        <li>Bench Press — 4×8</li>
-        <li>Incline Dumbbell Press — 3×10</li>
-        <li>Push-Ups — 3× to failure</li>
-        <li>Cable Chest Fly — 3×12</li>
-      </ul>
+  <p class="section-sub">A balanced split that hits every major muscle group. Click <em>Watch Tutorial</em> on any exercise to see proper form.</p>
+
+  <div class="workout-group">
+    <h3 class="group-title">🏋️ Chest</h3>
+    <div class="exercise-grid">
+      <div class="exercise-card">
+        <img src="images/bench-press.gif" alt="Bench Press" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Bench+Press';this.onerror=null;" />
+        <div class="body">
+          <h4>Bench Press</h4>
+          <div class="reps">4 sets × 8 reps</div>
+          <p class="desc">Lie flat, lower the bar to mid-chest with elbows ~45°, press up explosively.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=bench+press+proper+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/incline-dumbbell-press.gif" alt="Incline Dumbbell Press" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Incline+DB+Press';this.onerror=null;" />
+        <div class="body">
+          <h4>Incline Dumbbell Press</h4>
+          <div class="reps">3 sets × 10 reps</div>
+          <p class="desc">Bench at 30°. Press dumbbells up and slightly together to hit the upper chest.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=incline+dumbbell+press+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/push-ups.gif" alt="Push-Ups" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Push-Ups';this.onerror=null;" />
+        <div class="body">
+          <h4>Push-Ups</h4>
+          <div class="reps">3 sets × to failure</div>
+          <p class="desc">Body straight, hands shoulder-width. Lower chest to floor, push up with control.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=perfect+push+up+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/cable-chest-fly.gif" alt="Cable Chest Fly" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Cable+Chest+Fly';this.onerror=null;" />
+        <div class="body">
+          <h4>Cable Chest Fly</h4>
+          <div class="reps">3 sets × 12 reps</div>
+          <p class="desc">Slight elbow bend, sweep handles together in front of the chest. Squeeze, return slowly.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=cable+chest+fly+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <div class="icon">🛡️</div>
-      <h3>Shoulders</h3>
-      <p>Build wider, stronger shoulders and protect the rotator cuff.</p>
-      <ul>
-        <li>Overhead Press — 4×8</li>
-        <li>Lateral Raises — 3×15</li>
-        <li>Face Pulls — 3×15</li>
-        <li>Rear Delt Fly — 3×12</li>
-      </ul>
+  </div>
+
+  <div class="workout-group">
+    <h3 class="group-title">🛡️ Shoulders</h3>
+    <div class="exercise-grid">
+      <div class="exercise-card">
+        <img src="images/overhead-press.gif" alt="Overhead Press" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Overhead+Press';this.onerror=null;" />
+        <div class="body">
+          <h4>Overhead Press</h4>
+          <div class="reps">4 sets × 8 reps</div>
+          <p class="desc">Bar at collarbone, press straight overhead. Glutes tight, no back arch.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=overhead+press+proper+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/lateral-raises.gif" alt="Lateral Raises" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Lateral+Raises';this.onerror=null;" />
+        <div class="body">
+          <h4>Lateral Raises</h4>
+          <div class="reps">3 sets × 15 reps</div>
+          <p class="desc">Slight elbow bend, raise dumbbells out to the sides until parallel to floor.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=lateral+raise+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/face-pulls.gif" alt="Face Pulls" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Face+Pulls';this.onerror=null;" />
+        <div class="body">
+          <h4>Face Pulls</h4>
+          <div class="reps">3 sets × 15 reps</div>
+          <p class="desc">Pull rope toward forehead, elbows high. Builds rear delts and rotator cuff.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=face+pulls+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/rear-delt-fly.gif" alt="Rear Delt Fly" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Rear+Delt+Fly';this.onerror=null;" />
+        <div class="body">
+          <h4>Rear Delt Fly</h4>
+          <div class="reps">3 sets × 12 reps</div>
+          <p class="desc">Hinge at hips, raise dumbbells out wide. Squeeze shoulder blades.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=rear+delt+fly+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <div class="icon">🔙</div>
-      <h3>Back</h3>
-      <p>A strong back fixes posture and powers nearly every pulling action.</p>
-      <ul>
-        <li>Pull-Ups / Lat Pulldown — 4×8</li>
-        <li>Barbell Rows — 4×10</li>
-        <li>Seated Cable Row — 3×12</li>
-        <li>Deadlift — 3×6</li>
-      </ul>
+  </div>
+
+  <div class="workout-group">
+    <h3 class="group-title">🔙 Back</h3>
+    <div class="exercise-grid">
+      <div class="exercise-card">
+        <img src="images/pull-ups.gif" alt="Pull-Ups" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Pull-Ups';this.onerror=null;" />
+        <div class="body">
+          <h4>Pull-Ups / Lat Pulldown</h4>
+          <div class="reps">4 sets × 8 reps</div>
+          <p class="desc">Pull chest to bar (or bar to chest). Lead with elbows, squeeze the lats.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=pull+up+proper+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/barbell-row.gif" alt="Barbell Row" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Barbell+Row';this.onerror=null;" />
+        <div class="body">
+          <h4>Barbell Rows</h4>
+          <div class="reps">4 sets × 10 reps</div>
+          <p class="desc">Hinge forward, neutral spine, row bar to lower chest. Drive elbows back.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=barbell+row+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/seated-cable-row.gif" alt="Seated Cable Row" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Cable+Row';this.onerror=null;" />
+        <div class="body">
+          <h4>Seated Cable Row</h4>
+          <div class="reps">3 sets × 12 reps</div>
+          <p class="desc">Chest up, pull handle to abdomen. Squeeze shoulder blades together at the end.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=seated+cable+row+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/deadlift.gif" alt="Deadlift" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Deadlift';this.onerror=null;" />
+        <div class="body">
+          <h4>Deadlift</h4>
+          <div class="reps">3 sets × 6 reps</div>
+          <p class="desc">Bar over mid-foot, brace core, drive through heels. Hips and shoulders rise together.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=deadlift+proper+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <div class="icon">💪</div>
-      <h3>Arms (Biceps + Triceps)</h3>
-      <p>Sculpt and strengthen the muscles you use every day.</p>
-      <ul>
-        <li>Barbell Curls — 3×10</li>
-        <li>Hammer Curls — 3×12</li>
-        <li>Tricep Dips — 3×10</li>
-        <li>Skull Crushers — 3×10</li>
-      </ul>
+  </div>
+
+  <div class="workout-group">
+    <h3 class="group-title">💪 Arms — Biceps &amp; Triceps</h3>
+    <div class="exercise-grid">
+      <div class="exercise-card">
+        <img src="images/barbell-curl.gif" alt="Barbell Curl" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Barbell+Curl';this.onerror=null;" />
+        <div class="body">
+          <h4>Barbell Curls</h4>
+          <div class="reps">3 sets × 10 reps</div>
+          <p class="desc">Elbows pinned to sides, curl the bar up. No swinging — control on the way down.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=barbell+curl+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/hammer-curl.gif" alt="Hammer Curl" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Hammer+Curl';this.onerror=null;" />
+        <div class="body">
+          <h4>Hammer Curls</h4>
+          <div class="reps">3 sets × 12 reps</div>
+          <p class="desc">Neutral grip (palms facing in). Hits the brachialis for thicker arms.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=hammer+curl+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/tricep-dips.gif" alt="Tricep Dips" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Tricep+Dips';this.onerror=null;" />
+        <div class="body">
+          <h4>Tricep Dips</h4>
+          <div class="reps">3 sets × 10 reps</div>
+          <p class="desc">Lower until elbows hit 90°, press back up. Keep torso upright to bias triceps.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=tricep+dips+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/skull-crushers.gif" alt="Skull Crushers" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Skull+Crushers';this.onerror=null;" />
+        <div class="body">
+          <h4>Skull Crushers</h4>
+          <div class="reps">3 sets × 10 reps</div>
+          <p class="desc">Lying down, lower EZ bar toward forehead with elbows fixed. Extend back up.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=skull+crushers+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <div class="icon">🦵</div>
-      <h3>Legs</h3>
-      <p>The largest muscle group — train it for strength, stability, and overall power.</p>
-      <ul>
-        <li>Squats — 4×8</li>
-        <li>Romanian Deadlift — 3×10</li>
-        <li>Leg Press — 3×12</li>
-        <li>Walking Lunges — 3×12 each leg</li>
-      </ul>
+  </div>
+
+  <div class="workout-group">
+    <h3 class="group-title">🦵 Legs</h3>
+    <div class="exercise-grid">
+      <div class="exercise-card">
+        <img src="images/squat.gif" alt="Squat" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Squat';this.onerror=null;" />
+        <div class="body">
+          <h4>Squats</h4>
+          <div class="reps">4 sets × 8 reps</div>
+          <p class="desc">Feet shoulder-width, sit back and down to parallel. Drive through heels.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=barbell+squat+proper+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/romanian-deadlift.gif" alt="Romanian Deadlift" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Romanian+Deadlift';this.onerror=null;" />
+        <div class="body">
+          <h4>Romanian Deadlift</h4>
+          <div class="reps">3 sets × 10 reps</div>
+          <p class="desc">Soft knee bend, hinge at hips, slide bar down legs. Feel the hamstring stretch.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=romanian+deadlift+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/leg-press.gif" alt="Leg Press" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Leg+Press';this.onerror=null;" />
+        <div class="body">
+          <h4>Leg Press</h4>
+          <div class="reps">3 sets × 12 reps</div>
+          <p class="desc">Feet shoulder-width on platform. Lower until knees ~90°, press through whole foot.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=leg+press+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/walking-lunges.gif" alt="Walking Lunges" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Walking+Lunges';this.onerror=null;" />
+        <div class="body">
+          <h4>Walking Lunges</h4>
+          <div class="reps">3 sets × 12 reps / leg</div>
+          <p class="desc">Step forward, drop back knee toward floor. Push off front heel to advance.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=walking+lunges+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <div class="icon">🔥</div>
-      <h3>Core</h3>
-      <p>A strong midsection stabilizes every other lift and protects the spine.</p>
-      <ul>
-        <li>Plank — 3× 60 sec</li>
-        <li>Hanging Leg Raises — 3×12</li>
-        <li>Russian Twists — 3×20</li>
-        <li>Cable Wood Chops — 3×12</li>
-      </ul>
+  </div>
+
+  <div class="workout-group">
+    <h3 class="group-title">🔥 Core</h3>
+    <div class="exercise-grid">
+      <div class="exercise-card">
+        <img src="images/plank.gif" alt="Plank" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Plank';this.onerror=null;" />
+        <div class="body">
+          <h4>Plank</h4>
+          <div class="reps">3 sets × 60 sec</div>
+          <p class="desc">Forearms down, body in straight line. Squeeze glutes, brace abs hard.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=plank+proper+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/hanging-leg-raises.gif" alt="Hanging Leg Raises" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Leg+Raises';this.onerror=null;" />
+        <div class="body">
+          <h4>Hanging Leg Raises</h4>
+          <div class="reps">3 sets × 12 reps</div>
+          <p class="desc">Hang from a bar, raise legs to 90° (or higher). No swinging — purely abs.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=hanging+leg+raises+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/russian-twists.gif" alt="Russian Twists" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Russian+Twists';this.onerror=null;" />
+        <div class="body">
+          <h4>Russian Twists</h4>
+          <div class="reps">3 sets × 20 reps</div>
+          <p class="desc">Lean back ~45°, feet off floor. Rotate torso to tap weight side-to-side.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=russian+twists+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
+      <div class="exercise-card">
+        <img src="images/cable-wood-chops.gif" alt="Cable Wood Chops" onerror="this.src='https://placehold.co/600x400/302b63/ffd93d?text=Wood+Chops';this.onerror=null;" />
+        <div class="body">
+          <h4>Cable Wood Chops</h4>
+          <div class="reps">3 sets × 12 reps</div>
+          <p class="desc">Pull cable diagonally across body. Rotate from the core, not the arms.</p>
+          <a class="tutorial" href="https://www.youtube.com/results?search_query=cable+wood+chops+form" target="_blank">▶ Watch Tutorial</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -647,7 +907,7 @@
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll('.card').forEach((card) => {
+  document.querySelectorAll('.card, .exercise-card').forEach((card) => {
     card.style.opacity = 0;
     card.style.transform = 'translateY(40px)';
     card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
