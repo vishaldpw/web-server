@@ -1,0 +1,71 @@
+name: Destroy S3 Bucket
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type the bucket name exactly to confirm deletion'
+        required: true
+        type: string
+
+env:
+  AWS_REGION: us-east-1
+  S3_BUCKET: vishal-protein-fitness-demo
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify confirmation
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "${{ env.S3_BUCKET }}" ]; then
+            echo "Confirmation mismatch. You typed: '${{ github.event.inputs.confirm }}'"
+            echo "Expected: '${{ env.S3_BUCKET }}'"
+            exit 1
+          fi
+          echo "Confirmation matches. Proceeding with deletion."
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Check bucket exists
+        id: check
+        run: |
+          if aws s3api head-bucket --bucket "${{ env.S3_BUCKET }}" 2>/dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Bucket does not exist, nothing to do."
+          fi
+
+      - name: Empty bucket
+        if: steps.check.outputs.exists == 'true'
+        run: |
+          echo "Emptying bucket ${{ env.S3_BUCKET }}..."
+          aws s3 rm "s3://${{ env.S3_BUCKET }}" --recursive
+
+          # Remove any versioned objects / delete markers if versioning was ever enabled
+          aws s3api list-object-versions --bucket "${{ env.S3_BUCKET }}" \
+            --query '{Objects: Versions[].{Key:Key,VersionId:VersionId}}' \
+            --output json > /tmp/versions.json || true
+          if [ -s /tmp/versions.json ] && grep -q '"Key"' /tmp/versions.json; then
+            aws s3api delete-objects --bucket "${{ env.S3_BUCKET }}" --delete file:///tmp/versions.json || true
+          fi
+
+      - name: Delete bucket
+        if: steps.check.outputs.exists == 'true'
+        run: |
+          aws s3api delete-bucket --bucket "${{ env.S3_BUCKET }}" --region "${{ env.AWS_REGION }}"
+          echo "Bucket deleted."
+
+      - name: Summary
+        run: |
+          {
+            echo "## Bucket destroyed"
+            echo ""
+            echo "Bucket **${{ env.S3_BUCKET }}** has been emptied and deleted."
+          } >> "$GITHUB_STEP_SUMMARY"

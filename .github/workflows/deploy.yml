@@ -77,7 +77,34 @@ jobs:
             --exclude "README.md" \
             --delete
 
-      - name: Print site URL
+      - name: Verify site is live and publish URL
         run: |
-          echo "Site deployed:"
-          echo "http://${{ env.S3_BUCKET }}.s3-website-${{ env.AWS_REGION }}.amazonaws.com"
+          WEBSITE_URL="http://${{ env.S3_BUCKET }}.s3-website-${{ env.AWS_REGION }}.amazonaws.com"
+          OBJECT_URL="https://${{ env.S3_BUCKET }}.s3.${{ env.AWS_REGION }}.amazonaws.com/index.html"
+
+          echo "Waiting for site to be reachable..."
+          for i in 1 2 3 4 5; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$WEBSITE_URL" || echo "000")
+            if [ "$STATUS" = "200" ]; then
+              echo "Site is live (HTTP $STATUS)."
+              break
+            fi
+            echo "  attempt $i: HTTP $STATUS, retrying in 5s..."
+            sleep 5
+          done
+
+          # Console output
+          echo ""
+          echo "================================================="
+          echo "  SITE DEPLOYED"
+          echo "  $WEBSITE_URL"
+          echo "================================================="
+
+          # GitHub Actions step summary (shows at top of run page)
+          {
+            echo "## Deployment successful"
+            echo ""
+            echo "**Website URL:** <$WEBSITE_URL>"
+            echo ""
+            echo "**Object URL (fallback):** <$OBJECT_URL>"
+          } >> "$GITHUB_STEP_SUMMARY"
